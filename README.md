@@ -20,7 +20,7 @@ This repository contains a static frontend (HTML, CSS, vanilla JS) with a few pr
 ## Demo
 You can add a hosted demo URL here (replace the placeholder):
 
-**Live demo:** `https://bankist-dom-project-ali-khezri.netlify.app/`  
+**Live demo:** https://bankist-dom-project-ali-khezri.netlify.app/
 
 (Or use the steps below to run locally.)
 
