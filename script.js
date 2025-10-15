@@ -1,5 +1,9 @@
 'use strict';
 
+import digital from './img/digital.jpg';
+import grow from './img/grow.jpg';
+import card from './img/card.jpg';
+
 const modal = document.querySelector('.modal');
 const overlay = document.querySelector('.overlay');
 const btnCloseModal = document.querySelector('.btn--close-modal');
@@ -10,6 +14,13 @@ const tabs = document.querySelectorAll('.operations__tab');
 const tabsContainer = document.querySelector('.operations__tab-container');
 const tabsContent = document.querySelectorAll('.operations__content');
 const nav = document.querySelector('.nav');
+
+///////////////////////////////////////
+const imagesMap = {
+  digital,
+  grow,
+  card,
+};
 
 ///////////////////////////////////////
 // Modal window
@@ -43,14 +54,9 @@ btnScrollto.addEventListener('click', function (e) {
 
 ///////////////////////////////////////
 // Page navigation
-
-// 1. Add event listener to common parent element
-// 2. Determine what element originated the event
-
 document.querySelector('.nav__links').addEventListener('click', function (e) {
   e.preventDefault();
 
-  // Matching strategy
   if (e.target.classList.contains('nav__link')) {
     const id = e.target.getAttribute('href');
     document.querySelector(id).scrollIntoView({ behavior: 'smooth' });
@@ -62,17 +68,13 @@ document.querySelector('.nav__links').addEventListener('click', function (e) {
 tabsContainer.addEventListener('click', function (e) {
   const clicked = e.target.closest('.operations__tab');
 
-  // Gaurd clause
   if (!clicked) return;
 
-  // Remove Active classes+
   tabs.forEach(t => t.classList.remove('operations__tab--active'));
   tabsContent.forEach(t => t.classList.remove('operations__content--active'));
 
-  // Active tab
   clicked.classList.add('operations__tab--active');
 
-  // Active content area
   document
     .querySelector(`.operations__content--${clicked.dataset.tab}`)
     .classList.add('operations__content--active');
@@ -93,13 +95,11 @@ const handleHover = function (e) {
   }
 };
 
-// Passing 'argument' into handle
 nav.addEventListener('mouseover', handleHover.bind(0.5));
-
 nav.addEventListener('mouseout', handleHover.bind(1));
 
 /////////////////////////////////////////////////////
-// Sticky navigation : Interserction Observer API
+// Sticky navigation : Intersection Observer API
 const header = document.querySelector('.header');
 const navHeight = nav.getBoundingClientRect().height;
 
@@ -125,7 +125,6 @@ const revealSection = function (entries, observer) {
   entries.forEach(entry => {
     if (!entry.isIntersecting) return;
     entry.target.classList.remove('section--hidden');
-
     observer.unobserve(entry.target);
   });
 };
@@ -141,7 +140,19 @@ allSections.forEach(function (section) {
 });
 
 /////////////////////////////////////////////////////
-// Lazy loading images
+document.querySelectorAll('img[data-src]').forEach(img => {
+  const ds = img.dataset.src;
+  if (!ds) return;
+
+  const filename = ds.split('/').pop(); 
+  const base = filename.split('.')[0].replace(/-lazy$/i, '');
+
+  if (imagesMap[base]) {
+    img.dataset.src = imagesMap[base];
+  }
+});
+
+/////////////////////////////////////////////////////
 const imgTargets = document.querySelectorAll('img[data-src]');
 
 const loadImg = function (entries, observer) {
@@ -149,7 +160,6 @@ const loadImg = function (entries, observer) {
 
   if (!entry.isIntersecting) return;
 
-  // Replace src with data-src
   entry.target.src = entry.target.dataset.src;
 
   entry.target.addEventListener('load', function () {
@@ -177,7 +187,6 @@ const slider = function () {
   let curSlide = 0;
   const maxSlide = slides.length;
 
-  // Functions
   const createDots = function () {
     slides.forEach(function (_, i) {
       dotContainer.insertAdjacentHTML(
@@ -232,7 +241,6 @@ const slider = function () {
 
   init();
 
-  // Event handlers
   btnRight.addEventListener('click', nextSlide);
   btnLeft.addEventListener('click', prevSlide);
 
