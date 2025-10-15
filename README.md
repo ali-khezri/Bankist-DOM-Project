@@ -150,6 +150,6 @@ npm run deploy
 
 ## Author
 
-**Ali Khezri** — [Ali Khezri](https://github.com/ali-khezri) | [LinkedIn](https://www.linkedin.com/in/ali-khezri)
+**Ali Khezri** — [Github](https://github.com/ali-khezri) | [LinkedIn](https://www.linkedin.com/in/ali-khezri)
 
 ---
